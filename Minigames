@@ -1,0 +1,320 @@
+import tkinter
+import random
+from tkinter import messagebox
+win=tkinter.Tk()   #New Window
+win.title('programming project')     #Name
+win.geometry('160x210')  #Size
+#======================================================================
+def egg():
+    win=tkinter.Tk() 
+    win.title('Surprise')
+    win.geometry('1536x864')
+    image1 = tkinter.PhotoImage(file ='egg.gif')
+    tkinter.Label(win,image=image1).pack()
+    win.mainloop()
+    
+#======================================================================
+def secret():
+    a=num1.get()
+    if a=='e9VLtpd4nszJE7KbiQ':
+        messagebox.showinfo('Congratulations', 'Found the egg!!')
+        win.destroy()
+        egg() #call the egg
+    else:
+        messagebox.showinfo('Wrong','Do not be naughty ><')
+        
+point=0
+point2=0
+point3=0
+
+def credit():
+    if point==3: #All Correct
+        messagebox.showinfo('Congratulations', 'Unlock the first challenge')
+        with open('解碼1.txt', 'w+',  encoding='utf-8') as file1:
+            file1.write('e9VLtp')
+    else:
+        messagebox.showinfo('Congratulations', 'Finish the first challenge')
+def credit2():
+    if point2>=0: #Three times only
+        messagebox.showinfo('Congratulations', 'Unlock the second challenge')
+        with open('解碼2.txt', 'w+',  encoding='utf-8') as file1:
+            file1.write('d4nszJ')
+    else:
+        messagebox.showinfo('Congratulations', 'Finish the second challenge')
+def credit3(): 
+    if point3>=0: #pass the bomb
+        messagebox.showinfo('Congratulations', 'Unlock the third challenge')
+        with open('解碼3.txt', 'w+',  encoding='utf-8') as file1:
+            file1.write('E7KbiQ')
+    else:
+        messagebox.showinfo('Congratulations', 'Finish the third challenge')
+#===================================================
+def bye(): #close the window
+    win.destroy()
+    one1() #call the first game
+def bye2():
+    win.destroy()
+    game2() #call the second game
+def bye3():
+    win.destroy()
+    game3()#call the third game
+#===================================================
+def game3():#The third game
+    def safeA():  #Space A and the surrounded grids: open at the same time
+        A.set('-')  #space area: show '-'
+        A1.set(1)  #if there is one bomb in the square: show'1', if there are two bombs in the square: show'2'...
+        global point3
+        point3+=1
+    def safeB():  #Space B and the grids surrounded
+        B.set('-')
+        B1.set(1)
+        B2.set(2)
+        global point3
+        point3+=1
+    def safeC():  #Space C and the grids surrounded
+        C.set('-')
+        C1.set(1)
+        global point3
+        point3+=1
+    def safe1(i):  #outside the border: open by itself
+        n1[i].set(1)
+        global point3
+        point3+=1
+    def safe2(i):
+        n2[i].set(2)
+        global point3
+        point3+=1
+    def safe3(i):
+        n3[i].set(3)
+        global point3
+        point3+=1
+    def safe4(i):
+        n4[i].set(4)
+        global point3
+        point3+=1
+    def showMsg():  #Bomb
+        Bomb.set('bomb')
+        messagebox.showinfo('Game Over','You Lose')
+        global point3
+        point3-=21
+        btn=tkinter.Button(win, width=5, text='結束',command=credit3)
+        btn.grid(row=10,column=5)     
+    win = tkinter.Tk()
+    win.title('Minesweeper')
+    #row and column name
+    listA=['11','12']  #space A
+    listB=['16','17','18','19','26','27','28','29','36','37','38','39','47','48','49','57','58','59']  #space B
+    listC=['43','51','52','53','61','62','63','71','72','81','82','91','92']  #space C
+    listA1=['13','21','22']  #the border of space A'1'
+    listB1=['15','25','35','46','56','68','69']  #the border of space B'1'
+    listB2=['67']  #the border of space B'2'
+    listC1=['33','41','42','44','54','64','73','83','93']  #the border of space C'1'
+    list1=['14','23','32','34','45','74','94']  #outside the border'1'
+    list2=['65','66','75','79','95','99']   #outside the border'2'
+    list3=['85','86','89']   #outside the border'3'
+    list4=['77','97']   #outside the border'4'
+    listbomb=['24','31','55','76','78','84','87','88','96','98']  #Bomb area
+    #the number on the buttom would become string
+    A1=tkinter.StringVar()  
+    B1=tkinter.StringVar()
+    B2=tkinter.StringVar()
+    C1=tkinter.StringVar()
+    A=tkinter.StringVar()
+    B=tkinter.StringVar()
+    C=tkinter.StringVar()
+    #Dictionary
+    n1={}                                                           
+    n2={}
+    n3={}
+    n4={}
+    Bomb=tkinter.StringVar()
+    for i in listA1:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=A1, command=safeA, fg='blue')
+        btni.grid(row=i[0],column=i[1])  #follow the position by the name
+    for i in listB1:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=B1, command=safeB,fg='blue')
+        btni.grid(row=i[0],column=i[1])
+    for i in listB2:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=B2, command=safeB,fg='green')
+        btni.grid(row=i[0],column=i[1])
+    for i in listC1:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=C1, command=safeC,fg='blue')
+        btni.grid(row=i[0],column=i[1])
+    for i in listA:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=A, command=safeA)
+        btni.grid(row=i[0],column=i[1])
+    for i in listB:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=B, command=safeB)
+        btni.grid(row=i[0],column=i[1])
+    for i in listC:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=C, command=safeC)
+        btni.grid(row=i[0],column=i[1]) 
+    for i in list1:
+        n1[i]=tkinter.StringVar()
+        btni=tkinter.Button(win, width=5,height=3, textvariable=n1[i], command=lambda i=i:safe1(i),fg='blue')
+        btni.grid(row=i[0],column=i[1])
+    for i in list2:
+        n2[i]=tkinter.StringVar()
+        btni=tkinter.Button(win, width=5,height=3, textvariable=n2[i], command=lambda i=i:safe2(i),fg='green')
+        btni.grid(row=i[0],column=i[1])
+    for i in list3:
+        n3[i]=tkinter.StringVar()
+        btni=tkinter.Button(win, width=5,height=3, textvariable=n3[i], command=lambda i=i:safe3(i),fg='brown')
+        btni.grid(row=i[0],column=i[1])
+    for i in list4:
+        n4[i]=tkinter.StringVar()
+        btni=tkinter.Button(win, width=5,height=3, textvariable=n4[i], command=lambda i=i:safe4(i),fg='black')
+        btni.grid(row=i[0],column=i[1])
+    for i in listbomb:
+        btni=tkinter.Button(win, width=5,height=3, textvariable=Bomb,command=showMsg,fg='red')
+        btni.grid(row=i[0],column=i[1])
+    lab2=tkinter.Label(win, width=5, text='Three plus One', bg='black',fg='white',relief='groove')
+    lab2.grid(row=10,column=9)
+    win.mainloop()
+#=========================================================
+def game2(): #Second game
+    def ran():
+        a=num1.get() #input number
+        global point2
+        if int(a)==b and 1<=int(a)<=20:
+            point2+=2 
+            lab1=tkinter.Label(win, text='Bingo').pack()
+            btn=tkinter.Button(win, width=5, text='End',command=credit2).pack()
+        elif int(a)<b and 1<=int(a)<=20:
+            point2-=1
+            lab1=tkinter.Label(win, text='Bigger').pack()
+        elif int(a)>b and 1<=int(a)<=20:
+            point2-=1
+            lab1=tkinter.Label(win, text='Smaller').pack()
+        else: #guess more than 20 or less than 1
+            point2-=5
+            lab1=tkinter.Label(win, text='no').pack()
+    win=tkinter.Tk()  
+    win.title('Guess the number')   
+    win.geometry('70x150')
+    list1=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+
+    num1=tkinter.IntVar() # ntVar():interger
+    random.choice(list1) #generate random number
+    b=random.choice(list1)
+    
+    lab1=tkinter.Label(win, text='Choose a number from 1~20').pack()
+    item1=tkinter.Entry(win, width=20, textvariable=num1).pack()
+    btn=tkinter.Button(win, width=10, text='Confirm',command=ran).pack()
+    win.mainloop()
+
+#========================================================
+def one_ans(): #The answer of the first question
+    win1=tkinter.Toplevel()  
+    win1.geometry('150x210')
+    label=tkinter.Label(win1, text='It is Squirtle').pack()
+    image2 = tkinter.PhotoImage(file ='AA.gif')
+    tkinter.Label(win1,image=image2).pack()
+    win1.mainloop()
+def two_ans(): #The answer of the second question
+    win1=tkinter.Toplevel()  
+    win1.geometry('150x210')
+    label=tkinter.Label(win1, text='It is Gengar').pack()
+    image2 = tkinter.PhotoImage(file ='BBB.gif')
+    tkinter.Label(win1,image=image2).pack()
+    win1.mainloop()
+def thr_ans(): #The answer of the third question
+    win1=tkinter.Tk()  
+    win1.geometry('300x400')
+    label=tkinter.Label(win1, text='It is Pikachu').pack()
+    image2 = tkinter.PhotoImage(file ='CC.gif')
+    tkinter.Label(win1,image=image2).pack()
+    tkinter.Button(win1, text="The end",command=credit).pack()
+    win1.mainloop()
+
+def thr3():
+    def thr():   
+        i = radio_v.get()
+        if i ==0:
+            global point
+            point+=1
+            messagebox.showinfo('Result', 'Bingo')
+        else:
+            messagebox.showinfo('Result', 'Wrong')
+        win.destroy()
+        thr_ans()
+    win=tkinter.Tk()
+    win.title('Who’s that Pokémon Challenge')   
+    win.geometry('300x400')
+    label=tkinter.Label(win, text='Guess who am I ?').pack()
+    image1 = tkinter.PhotoImage(file ='CCC.gif')
+    tkinter.Label(win,image=image1).pack()
+    radio_v = tkinter.IntVar()
+    radio_v.set(0)
+    tkinter.Radiobutton(win, text='Pikachu',variable=radio_v, value=0).pack()
+    tkinter.Radiobutton(win, text='Hercules beetle',variable=radio_v, value=1).pack()
+    tkinter.Radiobutton(win, text='Charmander',variable=radio_v, value=2).pack()
+    tkinter.Radiobutton(win, text='Winnie-the-Pooh',variable=radio_v, value=3).pack()
+    tkinter.Button(win, text = "Confirm", command = thr).pack()
+    tkinter.Button(win, text="the answer of previous question",command=two_ans).pack()
+    win.mainloop()
+    
+def two2():
+    def two():   
+        i = radio_v.get()
+        if i ==3:
+            global point
+            point+=1
+            messagebox.showinfo('Result', 'Bingo')
+        else:
+            messagebox.showinfo('Result', 'Wrong')
+        win.destroy()
+        thr3()
+    win=tkinter.Tk()
+    win.title('Who’s that Pokémon Challenge')   
+    win.geometry('300x400')
+    label=tkinter.Label(win, text='Guess who am I ?').pack()
+    image1 = tkinter.PhotoImage(file ='BB.gif')
+    tkinter.Label(win,image=image1).pack()
+    radio_v = tkinter.IntVar()
+    radio_v.set(0)
+    tkinter.Radiobutton(win, text='Ash',variable=radio_v, value=0).pack()
+    tkinter.Radiobutton(win, text='Pikachu',variable=radio_v, value=1).pack()
+    tkinter.Radiobutton(win, text='Bulbasaur',variable=radio_v, value=2).pack()
+    tkinter.Radiobutton(win, text='Gengar',variable=radio_v, value=3).pack()
+    tkinter.Button(win, text = "Confirm", command = two ).pack()
+    tkinter.Button(win, text="the answer of previous question",command=one_ans).pack()
+    win.mainloop()
+
+def one1():
+    def one():
+        i = radio_v.get()
+        if i ==2:
+            global point
+            point+=1
+            messagebox.showinfo('Result', 'Bingo')
+        else:
+            messagebox.showinfo('Result', 'Wrong')
+        win.destroy() #close the messagebox
+        two2() #call the second window of the first game
+    win=tkinter.Tk()
+    win.title('Who’s that Pokémon Challenge') 
+    win.geometry('300x400')
+    label=tkinter.Label(win, text='Guess who am I ?').pack()
+    image1 = tkinter.PhotoImage(file ='AAA.gif')
+    tkinter.Label(win,image=image1).pack()
+    radio_v = tkinter.IntVar()
+    radio_v.set(0) 
+    tkinter.Radiobutton(win, text='Lickilicky',variable=radio_v, value=0).pack()
+    tkinter.Radiobutton(win, text='Pikachu',variable=radio_v, value=1).pack()
+    tkinter.Radiobutton(win, text='Squirtle',variable=radio_v, value=2).pack()
+    tkinter.Radiobutton(win, text='James',variable=radio_v, value=3).pack()
+    tkinter.Button(win, text = "Confirm", command = one).pack()
+    win.mainloop()
+#===============================================================
+
+lab1=tkinter.Label(win, text="Welcome to Minigames", bg="yellow",font=('Cambria',20)).pack()
+btn1=tkinter.Button(win, text="Who’s that Pokémon Challenge",font=('Cambria',15),command=bye).pack()
+btn2=tkinter.Button(win, text="Guess the number",font=('Cambria',15),command=bye2).pack()
+btn3=tkinter.Button(win, text="Minesweeper",font=('Cambria',15),command=bye3).pack()
+
+num1=tkinter.StringVar()
+item1=tkinter.Entry(win, width=21, textvariable=num1).pack()
+btn4=tkinter.Button(win, text="confirm",command=secret).pack()
+
+win.mainloop() 
